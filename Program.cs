@@ -9,10 +9,15 @@ namespace ReflectionBindingFlags
         {
             Type type = Type.GetType("ReflectionBindingFlags.PrivateMethodClass");
             PrivateMethodClass instance = (PrivateMethodClass)Activator.CreateInstance(type);
-            var method = instance.GetType().GetTypeInfo().GetMethod("PrivateMethod", BindingFlags.Public | BindingFlags.NonPublic |
+            try {
+                var method = instance.GetType().GetTypeInfo().GetMethod("PrivateMethod", BindingFlags.NonPublic | 
+                                                    BindingFlags.Public |
                                                     BindingFlags.Instance |
                                                     BindingFlags.Static);
-            method.Invoke(instance, new object[] {});
+                method.Invoke(instance, new object[] {});
+            } catch(Exception e) {
+                Console.WriteLine(e.StackTrace);
+            }
         }
     }
 }
